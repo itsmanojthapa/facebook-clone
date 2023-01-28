@@ -1,16 +1,14 @@
 tasks:
   - name: Initialize React.js App
-    init: |
+    command: |
       cd Clone_Facebook
       npm install
-    command: |
-      echo 'start script'
+      npm run start
       cd ..
 
-  - name: Initialize Backend
-    init: |
+  - name: Initialize Backend   
+    command: |
       cd Clone_Facebook_Backend
       npm i
-    command: |
       npm run dev
       cd ..
