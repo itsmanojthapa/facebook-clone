@@ -4,11 +4,9 @@ tasks:
       cd Clone_Facebook
       npm install
       npm run start
-      cd ..
 
   - name: Initialize Backend   
     command: |
       cd Clone_Facebook_Backend
-      npm i
+      npm install
       npm run dev
-      cd ..
