@@ -25,6 +25,7 @@ function options(req, res) {
 }
 
 app.use(cors());
+app.use(express.json());
 
 //batabase
 mongoose
