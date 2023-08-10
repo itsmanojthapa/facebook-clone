@@ -4,6 +4,8 @@ const app = express();
 const cors = require("cors");
 const userRoutes = require("./routes/user");
 require("dotenv").config();
+const mongoose = require("mongoose");
+const { log } = require("console");
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -24,8 +26,18 @@ function options(req, res) {
 
 app.use(cors());
 
+//batabase
+mongoose
+  .connect(process.env.DATABASE_URL, { useNewUrlParser: true })
+  .then(() => {
+    console.log("databse connected successfully");
+  })
+  .catch((err) => {
+    console.log("error connecting to mongodb", err);
+  });
+
+//routes
 readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
-// app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
