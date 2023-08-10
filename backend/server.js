@@ -1,6 +1,8 @@
 const express = require("express");
+const { readdirSync } = require("fs");
 const app = express();
 const cors = require("cors");
+const userRoutes = require("./routes/user");
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -20,6 +22,9 @@ function options(req, res) {
 }
 
 app.use(cors());
+
+readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
+// app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
