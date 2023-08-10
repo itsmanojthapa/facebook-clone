@@ -3,6 +3,7 @@ const { readdirSync } = require("fs");
 const app = express();
 const cors = require("cors");
 const userRoutes = require("./routes/user");
+require("dotenv").config();
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -30,4 +31,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(8000, () => console.log("Server running... on port 8000"));
+app.listen(process.env.SERVER_PORT || 8000, () =>
+  console.log("Server running... on port " + (process.env.SERVER_PORT || 8000))
+);
