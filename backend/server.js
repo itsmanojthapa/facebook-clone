@@ -5,7 +5,6 @@ const cors = require("cors");
 const userRoutes = require("./routes/user");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const { log } = require("console");
 
 let allowedOrigins = [
   "http://localhost:3000",
