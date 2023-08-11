@@ -29,7 +29,9 @@ app.use(express.json());
 
 //batabase
 mongoose
-  .connect(process.env.DATABASE_URL, { useNewUrlParser: true })
+  .connect(process.env.DATABASE_URL + "/facebook-clone", {
+    useNewUrlParser: true,
+  })
   .then(() => {
     console.log("databse connected successfully");
   })
