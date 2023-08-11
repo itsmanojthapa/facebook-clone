@@ -2,7 +2,6 @@ const { google } = require("googleapis");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// Replace these values with your actual credentials
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 
 const {
@@ -53,7 +52,7 @@ exports.sendVerificationEmail = async (email, name, url) => {
 
     // Send email
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info.response);
+    // console.log("Email sent:", info.response);
   } catch (error) {
     console.error("Error sending email:", error);
   }

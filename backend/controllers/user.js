@@ -7,6 +7,7 @@ const {
 } = require("../helpers/validation");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
@@ -64,11 +65,12 @@ exports.register = async (req, res) => {
       bDay,
       gender,
     });
-    // user.save();
+    user.save();
     const emailVerificationToken = generateToken(
       { id: user._id.toString() },
       "30m"
     );
+    console.log("emailToken : " + emailVerificationToken);
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
     sendVerificationEmail(email, user.first_name, url);
     const token = generateToken({ id: user._id.toString() }, "7d");
@@ -84,5 +86,17 @@ exports.register = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+exports.activateAccount = async (req, res) => {
+  const { token } = req.body;
+  const user = jwt.verify(token, process.env.TOKEN_SECRET);
+  const check = await User.findById(user.id);
+  if (check.verified == true) {
+    return res.status(400).json({ message: "this email is already activated" });
+  } else {
+    await User.findByIdAndUpdate(user.id, { verified: true });
+    return res.status(200).json({ message: "account has been activated" });
   }
 };
