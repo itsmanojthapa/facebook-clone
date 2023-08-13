@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import "./styles/icons/icons.css";
 import "./index.css";
 import store from "./reducers/index";
 import { Provider } from "react-redux";
