@@ -13,7 +13,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../reducers/userReducer";
 
-export default function RegisterForm() {
+export default function RegisterForm({ setVisible }) {
   const navigate = useNavigate();
   const userInfos = {
     first_name: "",
@@ -151,7 +151,11 @@ export default function RegisterForm() {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i
+            onClick={() => {
+              setVisible(false);
+            }}
+            className="exit_icon"></i>
           <span>Sign Up</span>
           <span>it's quick and easy</span>
         </div>
