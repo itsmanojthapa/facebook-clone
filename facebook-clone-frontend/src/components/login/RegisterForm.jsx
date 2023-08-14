@@ -2,6 +2,8 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
+import DateOfBirthSelect from "./DateOfBirthSelect";
+import GenderSelect from "./GenderSelect";
 
 export default function RegisterForm() {
   const userInfos = {
@@ -36,29 +38,60 @@ export default function RegisterForm() {
     return new Date(bYear, bMonth, 0).getDate() + 1;
   };
   const days = Array.from(new Array(getDay()), (val, index) => index + 1);
-  const registerValidation = new Yup.object({
+  const registerValidation = Yup.object({
     first_name: Yup.string()
       .required("What's your First name ?")
-      .min(2, "First name must be between 2 and 16 characters.")
-      .max(16, "First name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Number and special characters are not allowed."),
+      .min(2, "Fisrt name must be between 2 and 16 characters.")
+      .max(16, "Fisrt name must be between 2 and 16 characters.")
+      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
     last_name: Yup.string()
       .required("What's your Last name ?")
       .min(2, "Last name must be between 2 and 16 characters.")
       .max(16, "Last name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Number and special characters are not allowed."),
+      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
     email: Yup.string()
       .required(
-        "You'll need this when you log in and if yu ever need to reset your password."
+        "You'll need this when you log in and if you ever need to reset your password."
       )
-      .email("Enter a valid email address"),
+      .email("Enter a valid email address."),
     password: Yup.string()
       .required(
-        "Enter a combination of at least six numbers letters an d punctuation marks(such as ! and &)."
+        "Enter a combination of at least six numbers,letters and punctuation marks(such as ! and &)."
       )
       .min(6, "Password must be atleast 6 characters.")
-      .max(36, "Password can't be more than 36 characters."),
+      .max(36, "Password can't be more than 36 characters"),
   });
+  const [dateError, setDateError] = useState("");
+  const [genderError, setGenderError] = useState("");
+  let dateeroo = () => {
+    let current_date = new Date();
+    let picked_date = new Date(bYear, bMonth, bDay);
+    let atleast14 = new Date(
+      new Date().getFullYear() - 14 + "-" + bMonth + "-" + bDay
+    );
+    let noMoreThan70 = new Date(
+      new Date().getFullYear() - 70 + "-" + bMonth + "-" + bDay
+    );
+
+    if (current_date - picked_date < current_date - atleast14) {
+      setDateError(
+        "it looks like you've enetered the wrong info. Please make sure that you use your real date of birth."
+      );
+    } else if (current_date - picked_date > current_date - noMoreThan70) {
+      setDateError(
+        "it looks like you've enetered the wrong info. Please make sure that you use your real date of birth."
+      );
+    } else {
+      setDateError("");
+    }
+    if (gender === "") {
+      setGenderError(
+        "Please choose a gender. You can change who can see this later."
+      );
+    } else {
+      setGenderError("");
+    }
+  };
   return (
     <div className="blur">
       <div className="register">
@@ -116,75 +149,25 @@ export default function RegisterForm() {
                 <div className="reg_line_header">
                   Date of birth <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <select
-                    name="bDay"
-                    value={bDay}
-                    onChange={handleRegisterChange}>
-                    {days.map((day, i) => (
-                      <option value={day} key={i}>
-                        {day}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bMonth"
-                    value={bMonth}
-                    onChange={handleRegisterChange}>
-                    {months.map((month, i) => (
-                      <option value={month} key={i}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bYear"
-                    value={bYear}
-                    onChange={handleRegisterChange}>
-                    {years.map((year, i) => (
-                      <option value={year} key={i}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <DateOfBirthSelect
+                  bDay={bDay}
+                  bMonth={bMonth}
+                  bYear={bYear}
+                  days={days}
+                  months={months}
+                  years={years}
+                  handleRegisterChange={handleRegisterChange}
+                  dateError={dateError}
+                />
               </div>
               <div className="reg_col">
                 <div className="reg_line_header">
                   Gender <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <label htmlFor="male">
-                    Male
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="male"
-                      value="male"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="female">
-                    Female
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="female"
-                      value="female"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="custom">
-                    Custom
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="custom"
-                      value="custom"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                </div>
+                <GenderSelect
+                  handleRegisterChange={handleRegisterChange}
+                  genderError={genderError}
+                />
               </div>
               <div className="reg_infos">
                 By clicking Sign Up, you agree to our{" "}
@@ -193,7 +176,12 @@ export default function RegisterForm() {
                 notifications from us and can opt out at any time.
               </div>
               <div className="reg_btn_wrapper">
-                <button className="blue_btn open_signup">Sign Up</button>
+                <button
+                  type="submit"
+                  onClick={dateeroo}
+                  className="blue_btn open_signup">
+                  Sign Up
+                </button>
               </div>
             </Form>
           )}

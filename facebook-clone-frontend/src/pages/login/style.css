@@ -215,8 +215,24 @@
   max-width: 900px;
 }
 /*----Footer------*/
-
+/*----dob and gender errors-----*/
+.reg_grid .input_error {
+  width: 360px;
+  position: absolute;
+  top: 70px;
+}
+.input_error_select_large {
+  left: -97%;
+  top: 15px !important;
+}
+/*----dob and gender errors-----*/
 /*----Media queries--------------*/
+@media (max-width: 539px) {
+  .reg_grid .input_error {
+    width: 300px;
+  }
+}
+
 @media (min-width: 539px) {
   .login_footer_wrap {
     max-width: 520px;
