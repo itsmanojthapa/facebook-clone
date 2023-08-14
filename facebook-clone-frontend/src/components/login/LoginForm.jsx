@@ -3,6 +3,12 @@ import LoginInput from "../inputs/loginInput";
 import { useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import SyncLoader from "react-spinners/SyncLoader";
+import { useDispatch, useSelector } from "react-redux";
+import { LOGIN } from "../../reducers/userReducer";
 
 const loginInfos = {
   email: "",
@@ -10,15 +16,15 @@ const loginInfos = {
 };
 
 export default function LoginForm({ setVisible }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState(loginInfos);
   const { email, password } = login;
   // console.log(login);
-
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
-
   const loginValidation = Yup.object({
     //schema to validate data
     email: Yup.string()
@@ -27,6 +33,26 @@ export default function LoginForm({ setVisible }) {
       .max(100),
     password: Yup.string().required("Password is required"),
   });
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const loginSubmit = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`http://localhost:8000/login`, {
+        email,
+        password,
+      });
+      setError("");
+      dispatch(LOGIN(data));
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      setSuccess("");
+    }
+  };
   return (
     <div className="login_wrap">
       <div className="login_1">
@@ -42,6 +68,9 @@ export default function LoginForm({ setVisible }) {
             initialValues={{
               email,
               password,
+            }}
+            onSubmit={() => {
+              loginSubmit();
             }}
             validationSchema={loginValidation}>
             {(formik) => (
@@ -68,6 +97,7 @@ export default function LoginForm({ setVisible }) {
           <Link to="/forgot" className="forgot_password">
             Forgotten password ?
           </Link>
+          {error && <div className="error_text">{error}</div>}
           <div className="sign_splitter"></div>
           <button
             onClick={() => {

@@ -9,12 +9,12 @@ export const userReducer = createSlice({
     user: fromCookie,
   },
   reducers: {
-    login: (state, action) => {
+    LOGIN: (state, action) => {
       state.user = action.payload;
     },
   },
 });
 
-export const { login } = userReducer.actions;
+export const { LOGIN } = userReducer.actions;
 
 export default userReducer.reducer;

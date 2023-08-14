@@ -11,7 +11,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 //https://www.davidhu.io/react-spinners/
 
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../reducers/userReducer";
+import { LOGIN } from "../../reducers/userReducer";
 
 export default function RegisterForm({ setVisible }) {
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ export default function RegisterForm({ setVisible }) {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const userState = useSelector((state) => state.userReducer.user);
+  // const userState = useSelector((state) => state.userReducer.user);
   // console.log(userState);
 
   const registerSubmit = async () => {
@@ -97,14 +97,13 @@ export default function RegisterForm({ setVisible }) {
       setSuccess(data.message);
       const { message, ...rest } = data;
       setTimeout(() => {
-        dispatch(login({ ...rest }));
+        dispatch(LOGIN({ ...rest }));
         Cookies.set("user", JSON.stringify(rest));
         navigate("/");
       }, 1000 * 5);
     } catch (error) {
       setLoading(false);
       setSuccess("");
-      console.log(error);
       setError(error.response.data.message);
     }
   };
