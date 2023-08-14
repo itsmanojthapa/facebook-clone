@@ -221,6 +221,17 @@
   .login_footer_wrap {
     max-width: 520px;
   }
+
+  .register {
+    width: 400px;
+  }
+  .reg_line {
+    flex-direction: row;
+  }
+  .reg_grid select,
+  .reg_grid label {
+    width: 110px;
+  }
 }
 @media (min-width: 650px) {
   .login_footer_wrap {
@@ -251,7 +262,7 @@
     width: 400px;
   }
   .input_wrap {
-    width: 360px !important;
+    width: 360px;
   }
   .login_footer_wrap {
     max-width: 900px;
