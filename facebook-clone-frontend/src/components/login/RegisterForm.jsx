@@ -1,11 +1,20 @@
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelect";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import SyncLoader from "react-spinners/SyncLoader";
+//https://www.davidhu.io/react-spinners/
+
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../reducers/userReducer";
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -63,6 +72,42 @@ export default function RegisterForm() {
   });
   const [dateError, setDateError] = useState("");
   const [genderError, setGenderError] = useState("");
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.userReducer.user);
+  // console.log(userState);
+
+  const registerSubmit = async () => {
+    try {
+      const { data } = await axios.post(`http://localhost:8000/register`, {
+        first_name,
+        last_name,
+        email,
+        password,
+        bYear,
+        bMonth,
+        bDay,
+        gender,
+      });
+      setError("");
+      setSuccess(data.message);
+      const { message, ...rest } = data;
+      setTimeout(() => {
+        dispatch(login({ ...rest }));
+        Cookies.set("user", JSON.stringify(rest));
+        navigate("/");
+      }, 1000 * 5);
+    } catch (error) {
+      setLoading(false);
+      setSuccess("");
+      console.log(error);
+      setError(error.response.data.message);
+    }
+  };
   let dateeroo = () => {
     let current_date = new Date();
     let picked_date = new Date(bYear, bMonth, bDay);
@@ -72,24 +117,34 @@ export default function RegisterForm() {
     let noMoreThan70 = new Date(
       new Date().getFullYear() - 70 + "-" + bMonth + "-" + bDay
     );
+    let err1 = false,
+      err2 = false;
 
     if (current_date - picked_date < current_date - atleast14) {
+      err1 = true;
       setDateError(
         "it looks like you've enetered the wrong info. Please make sure that you use your real date of birth."
       );
     } else if (current_date - picked_date > current_date - noMoreThan70) {
+      err1 = true;
       setDateError(
         "it looks like you've enetered the wrong info. Please make sure that you use your real date of birth."
       );
     } else {
+      err1 = false;
       setDateError("");
     }
     if (gender === "") {
+      err2 = true;
       setGenderError(
         "Please choose a gender. You can change who can see this later."
       );
     } else {
+      err2 = false;
       setGenderError("");
+    }
+    if (!(err1 || err2)) {
+      registerSubmit();
     }
   };
   return (
@@ -112,6 +167,7 @@ export default function RegisterForm() {
             bDay,
             gender,
           }}
+          onSubmit={() => {}}
           validationSchema={registerValidation}>
           {(formik) => (
             <Form className="register_form">
@@ -183,6 +239,10 @@ export default function RegisterForm() {
                   Sign Up
                 </button>
               </div>
+              <SyncLoader color="green" loading={loading} size={13} />
+              {error && <div className="error_text">{error} </div>}
+              {success && <div className="success_text">{success} </div>}
+              {loading && <div className="loading_">{loading} </div>}
             </Form>
           )}
         </Formik>

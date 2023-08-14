@@ -226,6 +226,16 @@
   top: 15px !important;
 }
 /*----dob and gender errors-----*/
+
+/*-------Error and Sucess Styles -----*/
+.error_text {
+  color: red;
+}
+.success_text {
+  color: var(--green-color);
+}
+/*-------Error and Sucess Styles -----*/
+
 /*----Media queries--------------*/
 @media (max-width: 539px) {
   .reg_grid .input_error {

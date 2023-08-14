@@ -1,11 +1,16 @@
+// import { useDispatch, useSelector } from "react-redux";
+// import { login } from "./userReducer";
+
+// const dispatch = useDispatch();
+// const user = useSelector((state) => state.userReducer.user);
+// dispatch(login({ name: "New User" }));
+// console.log(user);
+
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./userReducer";
+import userReducer from "./userReducer";
 
-const store = configureStore({
+export default configureStore({
   reducer: {
-    userReducer: counterReducer,
+    userReducer: userReducer,
   },
-  devTools: true,
 });
-
-export default store;
