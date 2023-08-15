@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import SyncLoader from "react-spinners/SyncLoader";
 //https://www.davidhu.io/react-spinners/
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { LOGIN } from "../../reducers/userReducer";
 
 export default function RegisterForm({ setVisible }) {
@@ -242,7 +242,7 @@ export default function RegisterForm({ setVisible }) {
                   Sign Up
                 </button>
               </div>
-              <SyncLoader color="green" loading={loading} size={13} />
+              <SyncLoader color="#1876f2" loading={loading} size={13} />
               {error && <div className="error_text">{error} </div>}
               {success && <div className="success_text">{success} </div>}
               {loading && <div className="loading_">{loading} </div>}

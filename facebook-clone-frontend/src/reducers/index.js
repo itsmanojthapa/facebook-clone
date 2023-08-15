@@ -7,10 +7,10 @@
 // console.log(user);
 
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userReducer";
+import user from "./userReducer";
 
 export default configureStore({
   reducer: {
-    userReducer: userReducer,
+    user: user,
   },
 });

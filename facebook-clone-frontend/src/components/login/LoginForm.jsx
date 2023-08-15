@@ -5,10 +5,10 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
-import SyncLoader from "react-spinners/SyncLoader";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { LOGIN } from "../../reducers/userReducer";
+import SyncLoader from "react-spinners/SyncLoader";
+import Cookies from "js-cookie";
 
 const loginInfos = {
   email: "",
@@ -35,8 +35,7 @@ export default function LoginForm({ setVisible }) {
   });
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const loginSubmit = async () => {
     try {
@@ -46,11 +45,12 @@ export default function LoginForm({ setVisible }) {
         password,
       });
       setError("");
-      dispatch(LOGIN(data));
-      navigate("/");
+      console.log(data);
+      dispatch(LOGIN({ ...data }));
+      Cookies.set("user", JSON.stringify(data));
     } catch (error) {
       setLoading(false);
-      setSuccess("");
+      setError(error.response.data.message);
     }
   };
   return (
@@ -98,6 +98,8 @@ export default function LoginForm({ setVisible }) {
             Forgotten password ?
           </Link>
           {error && <div className="error_text">{error}</div>}
+          <SyncLoader color="#1876f2" loading={loading} size={13} />
+          {loading && <div className="loading_">{loading} </div>}
           <div className="sign_splitter"></div>
           <button
             onClick={() => {

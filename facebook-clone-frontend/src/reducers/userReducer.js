@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 let fromCookie = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
 
 export const userReducer = createSlice({
-  name: "userReducer",
+  name: "user",
   initialState: {
-    user: fromCookie,
+    ...fromCookie,
   },
   reducers: {
     LOGIN: (state, action) => {
