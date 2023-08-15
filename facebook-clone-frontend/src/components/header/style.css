@@ -143,3 +143,9 @@ header {
   font-size: 13px;
   color: #fff;
 }
+
+.card {
+  height: 500px;
+  width: 500px;
+  background-color: red;
+}
