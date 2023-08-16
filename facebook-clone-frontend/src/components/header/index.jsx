@@ -23,7 +23,6 @@ export default function Header() {
   const user = useSelector((state) => {
     return state.user;
   });
-
   const color = "#65676b";
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -83,7 +82,9 @@ export default function Header() {
           <img src={user?.picture} alt="" />
           <span>{user?.first_name}</span>
         </Link>
-        <div className="circle_icon hover1" ref={allmenu}>
+        <div
+          className={`circle_icon hover1 ${showAllMenu && "active_header"}`}
+          ref={allmenu}>
           <div
             onClick={() => {
               setShowAllMenu((prev) => !prev);
