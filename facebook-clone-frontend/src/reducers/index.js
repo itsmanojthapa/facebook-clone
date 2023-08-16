@@ -2,7 +2,7 @@
 // import { login } from "./userReducer";
 
 // const dispatch = useDispatch();
-// const user = useSelector((state) => state.userReducer.user);
+// const user = useSelector((state) => return state.user);
 // dispatch(login({ name: "New User" }));
 // console.log(user);
 

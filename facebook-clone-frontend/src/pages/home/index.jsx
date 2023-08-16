@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Header from "../../components/header";
 import "./style.css";
-import useclickOutSide from "../../helper/clickOutSide";
+import useclickOutSide from "../../helpers/clickOutSide";
 
 export default function Home() {
   const [visible, setVisible] = useState(true);
@@ -14,7 +14,7 @@ export default function Home() {
     <>
       <Header />
 
-      {visible && <div className="card" ref={el}></div>}
+      {/* {visible && <div className="card" ref={el}></div>} */}
     </>
   );
 }

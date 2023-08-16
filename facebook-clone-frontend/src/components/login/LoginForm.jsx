@@ -35,7 +35,7 @@ export default function LoginForm({ setVisible }) {
   });
 
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const loginSubmit = async () => {
     try {

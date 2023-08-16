@@ -5,7 +5,7 @@ export default function useclickOutSide(Refrance, Function) {
     const listener = (e) => {
       //if no refrance or listener clicks contains refrance div return
       if (!Refrance.current || Refrance.current.contains(e.target)) {
-        console.log(Refrance.current.contains(e.target));
+        // console.log(Refrance.current.contains(e.target));
 
         return;
       }
