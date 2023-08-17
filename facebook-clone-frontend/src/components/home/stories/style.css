@@ -102,3 +102,15 @@
   box-shadow: 1px 2px var(--shadow-1);
   cursor: pointer;
 }
+
+@media (max-width: 960px) {
+  .stories {
+    grid-template-columns: repeat(5, 13vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .stories {
+    grid-template-columns: repeat(5, 15vw);
+  }
+}
