@@ -7,6 +7,5 @@ export default function LoggedInRoutes() {
   const user = useSelector((state) => {
     return state.user;
   });
-  console.log(!(Object.keys(user).length === 0));
   return !(Object.keys(user).length === 0) ? <Outlet /> : <Login />;
 }
