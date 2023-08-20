@@ -70,8 +70,12 @@ exports.register = async (req, res) => {
       { id: user._id.toString() },
       "30m"
     );
-    console.log("emailToken : " + emailVerificationToken);
-    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    // console.log("emailToken : " + emailVerificationToken);
+    const encodedemailVerificationToken = Buffer.from(
+      emailVerificationToken
+    ).toString("base64");
+    // console.log("Encoded : " + encodedemailVerificationToken);
+    const url = `${process.env.BASE_URL}/activate/${encodedemailVerificationToken}`;
     sendVerificationEmail(email, user.first_name, url);
     const token = generateToken({ id: user._id.toString() }, "7d");
     res.json({
@@ -91,9 +95,20 @@ exports.register = async (req, res) => {
 
 exports.activateAccount = async (req, res) => {
   try {
+    const validUser = req.user.id;
     const { token } = req.body;
-    const user = jwt.verify(token, process.env.TOKEN_SECRET);
+    const decodedtoken = Buffer.from(token, "base64").toString();
+    console.log("Deoc : " + decodedtoken);
+    const user = jwt.verify(decodedtoken, process.env.TOKEN_SECRET);
     const check = await User.findById(user.id);
+    if (validUser !== user.id) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "You dont have the authorization to complete this operation.",
+        });
+    }
     if (check.verified == true) {
       return res
         .status(400)

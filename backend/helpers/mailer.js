@@ -41,7 +41,6 @@ exports.sendVerificationEmail = async (email, name, url) => {
         accessToken: accessToken,
       },
     });
-
     // Compose email
     const mailOptions = {
       from: EMAIL,

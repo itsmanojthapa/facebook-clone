@@ -108,6 +108,9 @@
   .left_home::-webkit-scrollbar {
     display: none;
   }
+  .popup {
+    width: 70vw !important;
+  }
 }
 @media (max-width: 640px) {
   .left_home {
@@ -147,3 +150,31 @@
 
 @media (max-width: 600px) {
 }
+
+/**-----------Activate Popup------------*/
+.popup {
+  position: relative;
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  width: 30vw;
+  height: 200px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  text-align: center;
+}
+.popup_header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-bottom: 1px solid var(--bg-third);
+  padding: 15px;
+}
+.popup_message {
+  padding: 15px;
+  font-weight: 500;
+}
+/**-----------Activate Popup------------*/

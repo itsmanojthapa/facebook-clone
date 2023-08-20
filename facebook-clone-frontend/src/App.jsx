@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Profile from "./pages/profile";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
+import Activate from "./pages/home/Activate";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/activate/:token" element={<Activate />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
