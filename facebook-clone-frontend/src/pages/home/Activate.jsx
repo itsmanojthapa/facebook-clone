@@ -15,28 +15,63 @@ export default function Activate() {
   const user = useSelector((state) => {
     return state.user;
   });
-  const [success, setSuccess] = useState("adfa");
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("flase");
 
   const { token } = useParams();
-  console.log("Token is : " + token);
+  // const activateAccount = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const { data } = await axios.post(
+  //       "http://localhost:8000/activate",
+  //       { token },
+  //       { headers: { Authorization: `Bearer ${user.token}` } }
+  //     );
+  //     setSuccess(data.message);
+  //     user.verified = true;
+  //     Cookies.set("user", JSON.stringify({ ...user }));
+  //     dispatch(LOGIN({ ...user }));
+  //     setTimeout(() => {
+  //       Navigate("/");
+  //     }, 3000);
+  //   } catch (error) {
+  //     setError(error.response.data.message);
+  //     setTimeout(() => {
+  //       Navigate("/");
+  //     }, 3000);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   activateAccount();
+  // }, [token]);
   const activateAccount = async () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
         "http://localhost:8000/activate",
         { token },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
       setSuccess(data.message);
-      Cookies.set("user", JSON.stringify({ ...user, verified: true }));
-      dispatch(LOGIN({ ...user, verified: true }));
+
+      // Update user state and dispatch action
+      const updatedUser = { ...user, verified: true };
+      dispatch(LOGIN(updatedUser));
+
+      // Update cookie
+      Cookies.set("user", JSON.stringify(updatedUser));
+
       setTimeout(() => {
-        navigator("/");
+        window.location.href = "/login";
       }, 3000);
     } catch (error) {
       setError(error.response.data.message);
+
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 3000);
     }
   };
 

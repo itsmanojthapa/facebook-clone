@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import DisplayAccessibility from "./DisplayAccessibility";
 import HelpSupport from "./HelpSupport";
 import SettingsPrivacy from "./SettingsPrivacy";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { LOGIN } from "../../../reducers/userReducer";
 
 export default function UserMenu({ user }) {
   const [visible, setVisible] = useState(0);
+  const dispatch = useDispatch();
+
+  function logout() {
+    Cookies.set("user", "");
+    dispatch(LOGIN({}));
+    window.location.href = "/login";
+  }
   return (
     <div className="mmenu">
       {visible === 0 && (
@@ -34,8 +44,7 @@ export default function UserMenu({ user }) {
             className="mmenu_item hover3"
             onClick={() => {
               setVisible(1);
-            }}
-          >
+            }}>
             <div className="small_circle">
               <i className="settings_filled_icon"></i>
             </div>
@@ -48,8 +57,7 @@ export default function UserMenu({ user }) {
             className="mmenu_item hover3"
             onClick={() => {
               setVisible(2);
-            }}
-          >
+            }}>
             <div className="small_circle">
               <i className="help_filled_icon"></i>
             </div>
@@ -62,8 +70,7 @@ export default function UserMenu({ user }) {
             className="mmenu_item hover3"
             onClick={() => {
               setVisible(3);
-            }}
-          >
+            }}>
             <div className="small_circle">
               <i className="dark_filled_icon"></i>
             </div>
@@ -72,7 +79,11 @@ export default function UserMenu({ user }) {
               <i className="right_icon"></i>
             </div>
           </div>
-          <div className="mmenu_item hover3">
+          <div
+            className="mmenu_item hover3"
+            onClick={() => {
+              logout();
+            }}>
             <div className="small_circle">
               <i className="logout_filled_icon"></i>
             </div>

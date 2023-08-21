@@ -5,13 +5,13 @@ const {
   register,
   activateAccount,
   login,
-  auth,
+  sendVerification,
 } = require("../controllers/user");
 const authUser = require("../middlwares/auth");
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/activate", activateAccount);
-router.post("/auth", authUser, auth);
+router.post("/activate", authUser, activateAccount);
+router.post("/sendVerification", authUser, sendVerification);
 
 module.exports = router;

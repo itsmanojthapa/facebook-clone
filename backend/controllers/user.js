@@ -98,16 +98,12 @@ exports.activateAccount = async (req, res) => {
     const validUser = req.user.id;
     const { token } = req.body;
     const decodedtoken = Buffer.from(token, "base64").toString();
-    console.log("Deoc : " + decodedtoken);
     const user = jwt.verify(decodedtoken, process.env.TOKEN_SECRET);
     const check = await User.findById(user.id);
     if (validUser !== user.id) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "You dont have the authorization to complete this operation.",
-        });
+      return res.status(400).json({
+        message: "You dont have the authorization to complete this operation.",
+      });
     }
     if (check.verified == true) {
       return res
@@ -153,6 +149,28 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.auth = (req, res) => {
-  return res.status(200).json("welcom form auth");
+exports.sendVerification = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const user = await User.findById(id);
+    if (user.verified === true) {
+      return res.status(400).json({
+        message: "This account is already verified.",
+      });
+    }
+    const emailVerificationToken = generateToken(
+      { id: user._id.toString() },
+      "30m"
+    );
+    const encodedemailVerificationToken = Buffer.from(
+      emailVerificationToken
+    ).toString("base64");
+    const url = `${process.env.BASE_URL}/activate/${encodedemailVerificationToken}`;
+    sendVerificationEmail(user.email, user.first_name, url);
+    return res.status(200).json({
+      message: "Email verification link has been send to your email.",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

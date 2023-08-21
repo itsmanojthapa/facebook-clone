@@ -5,5 +5,5 @@ export default function NotLoggedInRoutes() {
   const user = useSelector((state) => {
     return state.user;
   });
-  return Object.keys(user).length === 0 ? <Navigate to="/" /> : <Outlet />;
+  return Object.keys(user).length === 0 ? <Outlet /> : <Navigate to="/" />;
 }
