@@ -6,6 +6,7 @@ import Profile from "./pages/profile";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/Activate";
+import Reset from "./pages/reset";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="/reset" element={<Reset />} />
       </Routes>
     </BrowserRouter>
   );
