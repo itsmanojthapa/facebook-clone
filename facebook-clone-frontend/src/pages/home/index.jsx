@@ -8,6 +8,7 @@ import RightHome from "../../components/home/right";
 import Stories from "../../components/home/stories";
 import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
+import CreatePostPopup from "../../components/createPostPopup";
 
 export default function Home() {
   const user = useSelector((state) => {
@@ -16,6 +17,7 @@ export default function Home() {
 
   return (
     <div className="base">
+      <CreatePostPopup user={user} />
       <Header />
       <div className="home">
         <LeftHome user={user} />
