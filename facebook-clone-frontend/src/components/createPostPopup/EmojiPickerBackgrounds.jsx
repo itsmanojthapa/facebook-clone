@@ -1,7 +1,8 @@
 import Picker from "emoji-picker-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export default function EmojiPickerBackgrounds({ textRef, text, setText }) {
+export default function EmojiPickerBackgrounds({ text, setText, user, type2 }) {
+  const textRef = useRef();
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
 
@@ -20,18 +21,34 @@ export default function EmojiPickerBackgrounds({ textRef, text, setText }) {
     setCursorPosition(start.length + emoji.length);
   };
   return (
-    <div className="post_emojis_wrap">
-      {picker && (
-        <div className="comment_emoji_picker rlmove">
-          <Picker onEmojiClick={handleEmoji} />
+    <>
+      <div className={type2 ? "images_input" : undefined}>
+        <div className={type2 ? undefined : "flex_center"}>
+          <textarea
+            maxLength="100"
+            value={text}
+            ref={textRef}
+            placeholder={`What's on your mind, ${user.first_name}`}
+            className={`post_input ${type2 ? "input2" : undefined}`}
+            onChange={(e) => setText(e.target.value)}></textarea>
         </div>
-      )}
-      <img src="../../../public/icons/colorful.png" alt="" />
-      <i
-        className="emoji_icon_large"
-        onClick={() => {
-          setPicker((val) => !val);
-        }}></i>
-    </div>
+        <div className={type2 ? undefined : "post_emojis_wrap"}>
+          {picker && (
+            <div
+              className={`comment_emoji_picker rlmove ${
+                type2 ? "movepicker2" : "rlmove"
+              }`}>
+              <Picker onEmojiClick={handleEmoji} />
+            </div>
+          )}
+          {!type2 && <img src="../../../public/icons/colorful.png" alt="" />}
+          <i
+            className={`emoji_icon_large ${type2 ? "moveleft" : undefined}`}
+            onClick={() => {
+              setPicker((val) => !val);
+            }}></i>
+        </div>
+      </div>
+    </>
   );
 }
