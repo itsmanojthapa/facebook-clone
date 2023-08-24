@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useState } from "react";
 import Header from "../../components/header";
 import "./style.css";
 import useclickOutSide from "../../helpers/clickOutSide";
@@ -14,17 +14,17 @@ export default function Home() {
   const user = useSelector((state) => {
     return state.user;
   });
-
+  const [visible, setVisible] = useState(false);
   return (
     <div className="base">
-      <CreatePostPopup user={user} />
+      {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
       <Header />
       <div className="home">
         <LeftHome user={user} />
         <div className="home_middle">
           <Stories />
           {!user.id && <SendVerification user={user} />}
-          <CreatePost user={user} />
+          <CreatePost setVisible={setVisible} user={user} />
         </div>
         <RightHome user={user} />
       </div>

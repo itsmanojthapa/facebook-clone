@@ -1,19 +1,51 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./style.css";
-import Picker from "emoji-picker-react";
 import EmojiPickerBackgrounds from "./EmojiPickerBackgrounds";
 import AddToYourPost from "./AddToYourPost";
 import ImagePreview from "./ImagePreview";
+import useclickOutSide from "../../helpers/clickOutSide";
+import { createPost } from "../../functions/post";
+import PulseLoader from "react-spinners/PulseLoader";
 
-export default function CreatePostPopup({ user }) {
+export default function CreatePostPopup({ user, setVisible }) {
   const [text, setText] = useState("");
   const [showPrev, setShowPrev] = useState(false);
   const [images, setImages] = useState([]);
+  const [background, setBackground] = useState("");
+  const popup = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+  useclickOutSide(popup, () => {
+    setVisible(false);
+  });
+
+  const postSubmit = async () => {
+    if (background) {
+      setLoading(true);
+      const res = await createPost(
+        null,
+        background,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      setBackground("");
+      setText("");
+      setVisible(false);
+    }
+  };
+
   return (
     <div className="blur">
-      <div className="postBox">
+      <div className="postBox" ref={popup}>
         <div className="box_header">
-          <div className="small_circle">
+          <div
+            className="small_circle"
+            onClick={() => {
+              setVisible(false);
+            }}>
             <i className="exit_icon"></i>
           </div>
           <span>Create Post</span>
@@ -34,7 +66,13 @@ export default function CreatePostPopup({ user }) {
 
         {!showPrev ? (
           <>
-            <EmojiPickerBackgrounds user={user} text={text} setText={setText} />
+            <EmojiPickerBackgrounds
+              user={user}
+              text={text}
+              setText={setText}
+              background={background}
+              setBackground={setBackground}
+            />
           </>
         ) : (
           <ImagePreview
@@ -46,7 +84,14 @@ export default function CreatePostPopup({ user }) {
           />
         )}
         <AddToYourPost setShowPrev={setShowPrev} />
-        <button className="post_submit">POST</button>
+        <button
+          className="post_submit"
+          onClick={() => {
+            postSubmit();
+          }}
+          disabled={loading}>
+          {loading ? <PulseLoader color="#fff" size={5} /> : "POST"}
+        </button>
       </div>
     </div>
   );

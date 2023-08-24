@@ -1,10 +1,14 @@
 import "./style.css";
 import { Feeling, LiveVideo, Photo } from "../../svg";
 
-export default function CreatePost({ user }) {
+export default function CreatePost({ user, setVisible }) {
   return (
     <div className="createPost">
-      <div className="createPost_header">
+      <div
+        className="createPost_header"
+        onClick={() => {
+          setVisible(true);
+        }}>
         <img src={user.picture} alt="" />
         <div className="open_post">What's on your mind, {user?.first_name}</div>
       </div>
