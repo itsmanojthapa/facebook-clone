@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 module.exports = async (req, res, next) => {
   try {
     // console.log(Object.values(req.files).flat());
