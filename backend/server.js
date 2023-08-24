@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -24,6 +25,7 @@ function options(req, res) {
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload({ useTempFiles: true }));
 
 //batabase
 mongoose
