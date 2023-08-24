@@ -41,7 +41,7 @@ mongoose
 readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello FaceBook Clone!");
 });
 
 app.listen(process.env.SERVER_PORT || 8000, () =>

@@ -9,7 +9,6 @@ export default function CreatePostPopup({ user }) {
   const [text, setText] = useState("");
   const [showPrev, setShowPrev] = useState(false);
   const [images, setImages] = useState([]);
-  console.log(images);
   return (
     <div className="blur">
       <div className="postBox">
