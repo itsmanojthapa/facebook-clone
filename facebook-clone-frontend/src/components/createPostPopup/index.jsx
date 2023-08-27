@@ -7,6 +7,8 @@ import useclickOutSide from "../../helpers/clickOutSide";
 import { createPost } from "../../functions/post";
 import PulseLoader from "react-spinners/PulseLoader";
 import PostError from "./PostError";
+import dataURItoBlob from "../../helpers/dataURItoBlob";
+import { uploadImages } from "../../functions/uploadImages";
 
 export default function CreatePostPopup({ user, setVisible }) {
   const [text, setText] = useState("");
@@ -40,6 +42,55 @@ export default function CreatePostPopup({ user, setVisible }) {
       } else {
         setError(response);
       }
+    } else if (images && images.length) {
+      setLoading(true);
+      const postImages = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = `facebook-clone/${user.username}/post Images`;
+      let formData = new FormData();
+      formData.append("path", path);
+      postImages.forEach((image) => {
+        formData.append("file", image);
+      });
+      const response = await uploadImages(formData, path, user.token);
+
+      const res = await createPost(
+        null,
+        null,
+        text,
+        response,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (res === "ok") {
+        setText("");
+        setImages("");
+        setVisible(false);
+      } else {
+        setError(res);
+      }
+    } else if (text) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        null,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (response === "ok") {
+        setBackground("");
+        setText("");
+        setVisible(false);
+      } else {
+        setError(response);
+      }
+    } else {
+      console.log("nothing.");
     }
   };
 
@@ -88,6 +139,8 @@ export default function CreatePostPopup({ user, setVisible }) {
             setText={setText}
             images={images}
             setImages={setImages}
+            setShowPrev={setShowPrev}
+            setError={setError}
           />
         )}
         <AddToYourPost setShowPrev={setShowPrev} />

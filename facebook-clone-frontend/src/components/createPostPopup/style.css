@@ -402,6 +402,10 @@
   border-radius: 5px;
   padding: 3rem;
 }
+.postError_error {
+  width: 75%;
+  font-weight: 600;
+}
 /*----post error----*/
 @keyframes anim {
   0% {

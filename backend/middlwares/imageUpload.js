@@ -1,9 +1,7 @@
 const fs = require("fs");
-
-module.exports = async (req, res, next) => {
+module.exports = async function (req, res, next) {
   try {
-    // console.log(Object.values(req.files).flat());
-    if (!req.files || Object.values(req.files).flat() === 0) {
+    if (!req.files || Object.values(req.files).flat().length === 0) {
       return res.status(400).json({ message: "No files selected." });
     }
     let files = Object.values(req.files).flat();
@@ -16,14 +14,14 @@ module.exports = async (req, res, next) => {
         file.mimetype !== "image/webp"
       ) {
         removeTmp(file.tempFilePath);
-        return res.status(500).json({ message: "Unsupported format." });
+        return res.status(400).json({ message: "Unsupported format." });
       }
       if (file.size > 1024 * 1024 * 5) {
         removeTmp(file.tempFilePath);
-        return res.status(500).json({ message: "File size is more then 5MB." });
+        return res.status(400).json({ message: "File size is too large." });
       }
-      next();
     });
+    next();
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
