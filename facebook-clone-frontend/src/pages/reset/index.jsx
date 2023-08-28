@@ -10,11 +10,8 @@ import CodeVerification from "./CodeVerification";
 import ChangePassword from "./ChangePassword";
 import Cookies from "js-cookie";
 
-export default function Reset() {
+export default function Reset({ user }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => {
-    return state.user;
-  });
 
   const [visible, setVisible] = useState(0);
   const [email, setEmail] = useState("");

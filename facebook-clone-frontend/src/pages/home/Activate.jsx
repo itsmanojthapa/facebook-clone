@@ -11,10 +11,7 @@ import ActivateForm from "./activateForm";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-export default function Activate() {
-  const user = useSelector((state) => {
-    return state.user;
-  });
+export default function Activate({ user }) {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("flase");
