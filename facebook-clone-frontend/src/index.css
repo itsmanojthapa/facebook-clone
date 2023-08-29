@@ -9,12 +9,7 @@ body {
 html {
   overflow-y: scroll;
 }
-html,
-body {
-  margin: 0px;
-  height: 100vh;
-  width: 100vw;
-}
+
 a {
   text-decoration: none;
   color: inherit;

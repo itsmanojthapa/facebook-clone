@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
+const authUser = require("./middlwares/auth");
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -42,7 +43,7 @@ mongoose
 //routes
 readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
 
-app.get("/", (req, res) => {
+app.get("/", authUser, (req, res) => {
   res.send("Hello FaceBook Clone!");
 });
 

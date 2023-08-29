@@ -23,7 +23,9 @@ export default function Home({ user, posts }) {
           <CreatePost setVisible={setVisible} user={user} />
           <div className="posts">
             {posts[0] &&
-              posts.map((post) => <Post post={post} key={post._id} />)}
+              posts.map((post) => (
+                <Post post={post} user={user} key={post._id} />
+              ))}
             <div className="div">Hello World</div>
           </div>
         </div>
