@@ -10,6 +10,7 @@ import Reset from "./pages/reset";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import { postsState, loadingState, errorState } from "./atom";
 import {
   atom,
   useRecoilState,
@@ -18,12 +19,11 @@ import {
 } from "recoil";
 
 function App() {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
   const [posts, setPosts] = useRecoilState(postsState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [error, setError] = useRecoilState(errorState);
+
   useEffect(() => {
     getAllposts();
   }, []);
@@ -62,23 +62,3 @@ function App() {
 }
 
 export default App;
-
-const postsState = atom({
-  key: "postsState",
-  default: {
-    posts: {},
-  },
-});
-
-const loadingState = atom({
-  key: "loadingState",
-  default: {
-    loading: false,
-  },
-});
-const errorState = atom({
-  key: "errorState",
-  default: {
-    error: "",
-  },
-});

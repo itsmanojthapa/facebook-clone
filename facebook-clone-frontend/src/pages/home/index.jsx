@@ -7,6 +7,7 @@ import Stories from "../../components/home/stories";
 import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
 import CreatePostPopup from "../../components/createPostPopup";
+import Post from "../../components/post";
 
 export default function Home({ user, posts }) {
   const [visible, setVisible] = useState(false);
@@ -22,7 +23,7 @@ export default function Home({ user, posts }) {
           <CreatePost setVisible={setVisible} user={user} />
           <div className="posts">
             {posts[0] &&
-              posts.map((post) => <div key={post._id}>{post._id}</div>)}
+              posts.map((post) => <Post post={post} key={post._id} />)}
             <div className="div">Hello World</div>
           </div>
         </div>
