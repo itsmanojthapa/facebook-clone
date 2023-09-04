@@ -6,15 +6,12 @@ import RightHome from "../../components/home/right";
 import Stories from "../../components/home/stories";
 import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
-import CreatePostPopup from "../../components/createPostPopup";
 import Post from "../../components/post";
 
-export default function Home({ user, posts }) {
-  const [visible, setVisible] = useState(false);
+export default function Home({ user, posts, visible, setVisible }) {
   return (
     <div className="base">
-      {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
-      <Header />
+      <Header page="home" />
       <div className="home">
         <LeftHome user={user} />
         <div className="home_middle">

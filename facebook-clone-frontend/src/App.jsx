@@ -9,20 +9,17 @@ import Activate from "./pages/home/Activate";
 import Reset from "./pages/reset";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { postsState, loadingState, errorState } from "./atom";
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { useRecoilState } from "recoil";
+import CreatePostPopup from "./components/createPostPopup";
 
 function App() {
   const user = useSelector((state) => state.user);
   const [posts, setPosts] = useRecoilState(postsState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [error, setError] = useRecoilState(errorState);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     getAllposts();
@@ -46,10 +43,34 @@ function App() {
   };
   return (
     <BrowserRouter>
+      {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
       <Routes>
         <Route element={<LoggedInRoutes />}>
-          <Route path="/" element={<Home user={user} posts={posts} />} />
-          <Route path="/profile" element={<Profile user={user} />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                user={user}
+                posts={posts}
+                visible={visible}
+                setVisible={setVisible}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Profile user={user} visible={visible} setVisible={setVisible} />
+            }
+            exact
+          />
+          <Route
+            path="/profile/:username"
+            element={
+              <Profile user={user} visible={visible} setVisible={setVisible} />
+            }
+            exact
+          />
           <Route path="/activate/:token" element={<Activate user={user} />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>

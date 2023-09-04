@@ -574,3 +574,8 @@ header {
 .active_header svg {
   fill: var(--blue-color);
 }
+
+.active_link {
+  background-color: var(--light-blue-color);
+  color: var(--blue-color);
+}

@@ -19,3 +19,7 @@ export const errorState = atom({
     error: "",
   },
 });
+export const profileState = atom({
+  key: "profileState",
+  default: {},
+});
