@@ -6,6 +6,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const authUser = require("./middlwares/auth");
+const jwt = require("jsonwebtoken");
 
 let allowedOrigins = [
   "http://localhost:3000",
@@ -45,6 +46,25 @@ readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
 
 app.get("/", authUser, (req, res) => {
   res.send("Hello FaceBook Clone!");
+});
+app.post("/", (req, res) => {
+  try {
+    let tmp = req.header("Authorization");
+    const token = tmp ? tmp.slice(7, tmp.length) : "";
+    if (!token) {
+      return res
+        .status(400)
+        .json({ val: "no", message: "Invalid Authentification" });
+    }
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(400).json({ val: "no", message: err.message });
+      }
+      res.json({ val: "yes", user: user });
+    });
+  } catch (error) {
+    return res.status(500).json({ val: "no", message: error.message });
+  }
 });
 
 app.listen(process.env.SERVER_PORT || 8000, () =>

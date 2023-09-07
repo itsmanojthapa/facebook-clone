@@ -16,10 +16,6 @@
   transform: translateX(-50%);
 }
 @media (max-width: 1175px) {
-  .stories,
-  .createPost {
-    width: 84%;
-  }
   .home_middle {
     margin-left: 5%;
   }
@@ -62,6 +58,7 @@
   .stories,
   .createPost {
     width: 100%;
+    margin-bottom: 20px;
   }
 }
 @media (max-width: 960px) {

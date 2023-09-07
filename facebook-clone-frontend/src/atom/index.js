@@ -23,3 +23,7 @@ export const profileState = atom({
   key: "profileState",
   default: {},
 });
+export const photosState = atom({
+  key: "photosState",
+  default: {},
+});

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 import {
@@ -16,6 +16,9 @@ import ProfileMenu from "./ProfileMenu";
 import PplYouMayKnow from "./PplYouMayKnow";
 import CreatePost from "../../components/createPost";
 import GridPost from "./GridPost";
+import Post from "../../components/post";
+import Photos from "./Photos";
+import Friends from "../../components/post/Friends";
 
 export default function Profile({ user, visible, setVisible }) {
   const { username } = useParams();
@@ -29,6 +32,7 @@ export default function Profile({ user, visible, setVisible }) {
     getProfile();
   }, [userName]);
 
+  let visitor = userName === user.username ? false : true;
   const getProfile = async () => {
     try {
       setLoading(true);
@@ -53,13 +57,14 @@ export default function Profile({ user, visible, setVisible }) {
       setError(error.response.data.message);
     }
   };
+
   return (
     <div className="profile">
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
           <Cover cover={profile.cover} />
-          <ProfilePictureInfos profile={profile} />
+          <ProfilePictureInfos profile={profile} visitor={visitor} />
           <ProfileMenu />
         </div>
       </div>
@@ -68,13 +73,47 @@ export default function Profile({ user, visible, setVisible }) {
           <div className="bottom_container">
             <PplYouMayKnow />
             <div className="profile_grid">
-              <div className="profile_left profile_right">
-                <CreatePost
-                  user={user}
-                  profile={profile}
-                  setVisible={setVisible}
-                />
+              <div className="profile_left">
+                <Photos userName={userName} token={user.token} />
+                <Friends friends={profile.friends} />
+                <div className="relative_fb_copyright">
+                  <Link to="/">Privacy </Link>
+                  <span>. </span>
+                  <Link to="/">Terms </Link>
+                  <span>. </span>
+                  <Link to="/">Advertising </Link>
+                  <span>. </span>
+                  <Link to="/">
+                    Ad Choices <i className="ad_choices_icon"></i>{" "}
+                  </Link>
+                  <span>. </span>
+                  <Link to="/"></Link>Cookies <span>. </span>
+                  <Link to="/">More </Link>
+                  <span>. </span> <br />
+                  Meta © 2022
+                </div>
+              </div>
+              <div className="profile_right">
+                {!visitor && (
+                  <CreatePost
+                    user={user}
+                    profile={profile}
+                    setVisible={setVisible}
+                  />
+                )}
                 <GridPost />
+                {profile.posts && profile.posts.length ? (
+                  profile.posts.map((post) => (
+                    <Post
+                      post={post}
+                      user={user}
+                      key={post._id}
+                      profile={profile}
+                    />
+                  ))
+                ) : (
+                  <div className="no_posts">No posts available </div>
+                )}
               </div>
             </div>
           </div>
