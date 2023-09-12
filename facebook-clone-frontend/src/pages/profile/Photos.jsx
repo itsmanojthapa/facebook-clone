@@ -36,7 +36,6 @@ export default function Photos({ userName, token }) {
       setError(error.response.data.message);
     }
   };
-  console.log(photos);
   return (
     <div className="profile_card">
       <div className="profile_card_header">

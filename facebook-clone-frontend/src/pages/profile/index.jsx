@@ -8,7 +8,7 @@ import {
   useSetRecoilState,
 } from "recoil";
 import { profileState, loadingState, errorState } from "../../atom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/header";
 import Cover from "./Cover";
 import ProfilePictureInfos from "./ProfilePictureInfos";
