@@ -19,6 +19,7 @@ import GridPost from "./GridPost";
 import Post from "../../components/post";
 import Photos from "./Photos";
 import Friends from "../../components/post/Friends";
+import Intro from "../../components/intro";
 
 export default function Profile({ user, visible, setVisible }) {
   const { username } = useParams();
@@ -27,17 +28,27 @@ export default function Profile({ user, visible, setVisible }) {
   const [profile, setProfile] = useRecoilState(profileState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [error, setError] = useRecoilState(errorState);
+  const [photos, setPhotos] = useState({});
 
   useEffect(() => {
     getProfile();
   }, [userName]);
 
   let visitor = userName === user.username ? false : true;
+  const path = `facebook-clone/${userName}/*`;
+  const max = 30;
+  const sort = "desc";
+
+  const [othername, setOthername] = useState();
+  useEffect(() => {
+    setOthername(profile?.details?.otherName);
+  }, [profile]);
+
   const getProfile = async () => {
     try {
       setLoading(true);
       setError("");
-      const { data } = await axios(
+      const { data } = await axios.get(
         `http://localhost:8000/getProfile/${userName}`,
         {
           headers: {
@@ -49,6 +60,22 @@ export default function Profile({ user, visible, setVisible }) {
       if (data.ok === false) {
         navigate("/profile");
       } else {
+        try {
+          const path = `facebook-clone/${userName}/*`;
+          const max = 30;
+          const sort = "desc";
+
+          const images = await axios.post(
+            "http://localhost:8000/listImages",
+            { path: path, max: max, sort: sort },
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+          setPhotos(images.data);
+        } catch (error) {}
         setProfile(data);
       }
     } catch (error) {
@@ -57,14 +84,18 @@ export default function Profile({ user, visible, setVisible }) {
       setError(error.response.data.message);
     }
   };
-
   return (
     <div className="profile">
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
-          <Cover cover={profile.cover} />
-          <ProfilePictureInfos profile={profile} visitor={visitor} />
+          <Cover cover={profile.cover} visitor={visitor} photos={photos} />
+          <ProfilePictureInfos
+            profile={profile}
+            visitor={visitor}
+            photos={photos}
+            othername={othername}
+          />
           <ProfileMenu />
         </div>
       </div>
@@ -72,9 +103,18 @@ export default function Profile({ user, visible, setVisible }) {
         <div className="profile_container">
           <div className="bottom_container">
             <PplYouMayKnow />
+            <Intro
+              detailss={profile.details}
+              visitor={visitor}
+              setOthername={setOthername}
+            />
             <div className="profile_grid">
               <div className="profile_left">
-                <Photos userName={userName} token={user.token} />
+                <Photos
+                  userName={userName}
+                  token={user.token}
+                  photos={photos}
+                />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">
                   <Link to="/">Privacy </Link>

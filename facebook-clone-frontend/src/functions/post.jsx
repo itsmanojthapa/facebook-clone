@@ -10,14 +10,13 @@ export const createPost = async (
 ) => {
   try {
     const { data } = await axios.post(
-      "http://localhost:8000/createPost",
+      `http://localhost:8000/createPost`,
       {
         type,
         background,
         text,
         images,
         user,
-        token,
       },
       {
         headers: {
@@ -27,6 +26,7 @@ export const createPost = async (
     );
     return "ok";
   } catch (error) {
+    console.log(error);
     return error.response.data.message;
   }
 };

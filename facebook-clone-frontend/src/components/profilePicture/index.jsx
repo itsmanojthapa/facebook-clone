@@ -3,8 +3,9 @@ import "./style.css";
 import { useRef } from "react";
 import UpdateProfilePicture from "./UpdateProfilePicture";
 import useclickOutSide from "../../helpers/clickOutSide";
+import { useSelector } from "react-redux";
 
-export default function ProfilePicture({ setShow, pRef }) {
+export default function ProfilePicture({ setShow, pRef, photos }) {
   const popup = useRef(null);
   const refInput = useRef(null);
   useclickOutSide(popup, () => {
@@ -12,6 +13,9 @@ export default function ProfilePicture({ setShow, pRef }) {
   });
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
+  const user = useSelector((state) => {
+    return state.user;
+  });
 
   const handleImage = (e) => {
     let file = e.target.files[0];
@@ -83,7 +87,44 @@ export default function ProfilePicture({ setShow, pRef }) {
             </button>
           </div>
         )}
-        <div className="old_picture_wrap"></div>
+        <div className="old_pictures_wrap scrollbar">
+          <h4>your profile pictures</h4>
+          <div className="old_pictures">
+            {photos.resources &&
+              photos.resources
+                .filter(
+                  (img) =>
+                    img.folder ===
+                    `facebook-clone/${user.username}/profile_pictures`
+                )
+                .map((img) => (
+                  <img
+                    src={img.secure_url}
+                    key={img.public_id}
+                    alt=""
+                    onClick={() => setImage(img.secure_url)}
+                  />
+                ))}
+          </div>
+          <h4>other pictures</h4>
+          <div className="old_pictures">
+            {photos.resources &&
+              photos.resources
+                .filter(
+                  (img) =>
+                    img.folder !==
+                    `facebook-clone/${user.username}/profile_pictures`
+                )
+                .map((img) => (
+                  <img
+                    src={img.secure_url}
+                    key={img.public_id}
+                    onClick={() => setImage(img.secure_url)}
+                    alt=""
+                  />
+                ))}
+          </div>
+        </div>
         {image && (
           <UpdateProfilePicture
             setImage={setImage}

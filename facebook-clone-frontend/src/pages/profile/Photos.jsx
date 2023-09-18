@@ -3,39 +3,7 @@ import { useRecoilState } from "recoil";
 import { errorState, loadingState, photosState } from "../../atom";
 import axios from "axios";
 
-export default function Photos({ userName, token }) {
-  const [loading, setLoading] = useRecoilState(loadingState);
-  const [error, setError] = useRecoilState(errorState);
-  const [photos, setPhotos] = useRecoilState(photosState);
-
-  useEffect(() => {
-    getPhotos();
-  }, [userName]);
-
-  const path = `facebook-clone/${userName}/*`;
-  const max = 30;
-  const sort = "desc";
-  const getPhotos = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      const { data } = await axios.post(
-        "http://localhost:8000/listImages",
-        { path: path, max: max, sort: sort },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setLoading(false);
-      setPhotos(data);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      setError(error.response.data.message);
-    }
-  };
+export default function Photos({ userName, token, photos }) {
   return (
     <div className="profile_card">
       <div className="profile_card_header">
