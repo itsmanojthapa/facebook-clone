@@ -1,3 +1,6 @@
+import "./style.css";
+import { Link } from "react-router-dom";
+
 export default function Friends({ friends }) {
   return (
     <div className="profile_card">
@@ -16,9 +19,18 @@ export default function Friends({ friends }) {
       )}
       <div className="profile_card_grid">
         {friends &&
-          friends
-            .slice(0, 9)
-            .map((friend) => <div className="profile_photo_card"></div>)}
+          friends.slice(0, 9).map((friend, i) => (
+            <Link
+              key={i}
+              to={`/profile/${friend.username}`}
+              className="profile_photo_card">
+              <img src={friend.picture} alt="" />
+              <span>
+                {friend.first_name}
+                {friend.last_name}
+              </span>
+            </Link>
+          ))}
       </div>
     </div>
   );

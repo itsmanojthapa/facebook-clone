@@ -354,7 +354,22 @@
 .post_cover_wrap img {
   width: 100%;
 }
-
+.profile_friend_count {
+  font-weight: 600;
+}
+.profile_friend_imgs {
+  display: flex;
+  align-items: center;
+}
+.profile_friend_imgs img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px var(--shadow-1);
+}
+.profile_friend_imgs img:hover {
+  filter: brightness(110%);
+}
 @media (max-width: 900px) {
   .profile_w_left {
     flex-direction: column;
@@ -420,6 +435,9 @@
   .bottom_container {
     padding: 5px;
   }
+  .friendship {
+    transform: translateY(-4rem);
+  }
 }
 @media (max-width: 650px) {
   .profile_menu_wrap {
@@ -437,11 +455,20 @@
 }
 .scrollFixed .profile_right {
   margin-left: 370px;
-  width: 504px;
+  width: 505px;
 }
 .showLess .profile_left {
   bottom: 10px;
 }
 .showMore .profile_left {
   top: 54px;
+}
+.friendship {
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.friendship .blue_btn {
+  height: 34px;
 }
