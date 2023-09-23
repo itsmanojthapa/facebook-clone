@@ -435,6 +435,54 @@
   font-size: 13px;
   padding-left: 1px;
 }
+/*** Comments */
+.comment {
+  display: flex;
+  gap: 5px;
+  font-size: 50%;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+.comment_img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.comment_image {
+  margin-top: 5px;
+  width: 200px;
+  height: 150px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+.comment_wrap {
+  background: var(--bg-forth);
+  padding: 8px 15px;
+  border-radius: 15px;
+}
+.comment_actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+.comment_name {
+  font-size: 12px;
+}
+.comment_text {
+  font-size: 15px;
+}
+.view_comments {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-secondary);
+}
+
 @media (max-width: 1175px) {
   .post {
     width: 84%;

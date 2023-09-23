@@ -1,8 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
 import Picker from "emoji-picker-react";
+import { comment } from "../../functions/post";
+import dataURItoBlob from "../../helpers/dataURItoBlob";
+import { uploadImages } from "../../functions/uploadImages";
+import { BarLoader } from "react-spinners";
 
-export default function CreateComment({ user }) {
+export default function CreateComment({ user, postId, setComments, setCount }) {
   const [picker, setPicker] = useState("");
   const [error, setError] = useState("");
   const [commentImage, setCommentImage] = useState("");
@@ -10,6 +14,7 @@ export default function CreateComment({ user }) {
   const [cursorPosition, setCursorPosition] = useState();
   const textRef = useRef();
   const imgInput = useRef();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     //it sets cursor to prev position
@@ -47,6 +52,40 @@ export default function CreateComment({ user }) {
       setCommentImage(event.target.result);
     };
   };
+
+  const handleComment = async (e) => {
+    if (e.key === "Enter") {
+      if (commentImage != "") {
+        setLoading(true);
+        const img = dataURItoBlob(commentImage);
+        const path = `facebook-clone/${user.username}/post_Images/${postId}`;
+        let formData = new FormData();
+        formData.append("path", path);
+        formData.append("file", img);
+        const imgComment = await uploadImages(formData, path, user.token);
+
+        const comments = await comment(
+          postId,
+          text,
+          imgComment[0].url,
+          user.token
+        );
+        setComments(comments);
+        setCount((prev) => ++prev);
+        setLoading(false);
+        setText("");
+        setCommentImage("");
+      } else {
+        setLoading(true);
+        const comments = await comment(postId, text, "", user.token);
+        setComments(comments);
+        setLoading(false);
+        setText("");
+        setCommentImage("");
+      }
+    }
+  };
+
   return (
     <div className="create_comment_wrap">
       <div className="create_comment">
@@ -82,7 +121,11 @@ export default function CreateComment({ user }) {
             onChange={(e) => {
               setText(e.target.value);
             }}
+            onKeyUp={handleComment}
           />
+          <div className="comment_circle">
+            <BarLoader color="#1876f2" loading={loading} />
+          </div>
           <div
             className="comment_circle_icon hover2"
             onClick={() => {
