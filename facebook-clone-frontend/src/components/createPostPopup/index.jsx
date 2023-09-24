@@ -9,6 +9,8 @@ import PulseLoader from "react-spinners/PulseLoader";
 import PostError from "./PostError";
 import dataURItoBlob from "../../helpers/dataURItoBlob";
 import { uploadImages } from "../../functions/uploadImages";
+import { useRecoilState } from "recoil";
+import { postsState, profileState } from "../../atom";
 
 export default function CreatePostPopup({ user, setVisible }) {
   const [text, setText] = useState("");
@@ -18,6 +20,7 @@ export default function CreatePostPopup({ user, setVisible }) {
   const popup = useRef(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [posts, setPosts] = useRecoilState(postsState);
 
   useclickOutSide(popup, () => {
     setVisible(false);
@@ -35,10 +38,11 @@ export default function CreatePostPopup({ user, setVisible }) {
         user.token
       );
       setLoading(false);
-      if (response === "ok") {
+      if (response.status === "ok") {
+        setPosts([response.data, ...posts]);
+        setVisible(false);
         setBackground("");
         setText("");
-        setVisible(false);
       } else {
         setError(response);
       }
@@ -64,10 +68,11 @@ export default function CreatePostPopup({ user, setVisible }) {
         user.token
       );
       setLoading(false);
-      if (res === "ok") {
+      if (res.status === "ok") {
+        setPosts([res.data, ...posts]);
+        setVisible(false);
         setText("");
         setImages("");
-        setVisible(false);
       } else {
         setError(res);
       }
@@ -82,10 +87,11 @@ export default function CreatePostPopup({ user, setVisible }) {
         user.token
       );
       setLoading(false);
-      if (response === "ok") {
+      if (response.status === "ok") {
+        setPosts([response.data, ...posts]);
+        setVisible(false);
         setBackground("");
         setText("");
-        setVisible(false);
       } else {
         setError(response);
       }

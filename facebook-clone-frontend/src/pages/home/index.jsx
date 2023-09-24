@@ -8,7 +8,7 @@ import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
 import Post from "../../components/post";
 
-export default function Home({ user, posts, visible, setVisible }) {
+export default function Home({ user, posts, setVisible }) {
   return (
     <div className="base">
       <Header page="home" />
@@ -23,7 +23,6 @@ export default function Home({ user, posts, visible, setVisible }) {
               posts.map((post) => (
                 <Post post={post} user={user} key={post._id} />
               ))}
-            <div className="div">Hello World</div>
           </div>
         </div>
         <RightHome user={user} />

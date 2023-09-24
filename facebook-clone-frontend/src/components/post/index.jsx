@@ -8,6 +8,7 @@ import PostMenu from "./PostMenu";
 import { getReacts, reactPost } from "../../functions/post";
 import { useSelector } from "react-redux";
 import Comment from "./comment";
+import { useRef } from "react";
 
 export default function Post({ post, profile }) {
   const user = useSelector((state) => {
@@ -20,6 +21,8 @@ export default function Post({ post, profile }) {
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
   const [comments, setComments] = useState([]);
+  const [checkSaved, setCheckSaved] = useState();
+  const postRef = useRef(null);
 
   const getPostReacts = async () => {
     try {
@@ -28,6 +31,7 @@ export default function Post({ post, profile }) {
         setReacts(res.reacts);
         setCheck(res.check);
         setTotal(res.total);
+        setCheckSaved(res.checkSaved);
       }
     } catch (error) {
       console.error("Error fetching post reacts:", error);
@@ -73,7 +77,10 @@ export default function Post({ post, profile }) {
   };
 
   return (
-    <div className="post" style={{ width: `${profile && "100%"}` }}>
+    <div
+      className="post"
+      style={{ width: `${profile && "100%"}` }}
+      ref={postRef}>
       <div className="post_header">
         <Link
           to={`/profile/ ${post.user.username}`}
@@ -269,6 +276,12 @@ export default function Post({ post, profile }) {
           postUserId={post.user._id}
           imagesLength={post?.images?.length}
           setShowMenu={setShowMenu}
+          postId={post._id}
+          token={user.token}
+          checkSaved={checkSaved}
+          setCheckSaved={setCheckSaved}
+          images={post.images}
+          postRef={postRef}
         />
       )}
     </div>

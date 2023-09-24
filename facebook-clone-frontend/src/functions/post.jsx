@@ -24,7 +24,7 @@ export const createPost = async (
         },
       }
     );
-    return "ok";
+    return { status: "ok", data };
   } catch (error) {
     console.log(error);
     return error.response.data.message;
@@ -77,6 +77,41 @@ export const comment = async (postId, comment, image, token) => {
         comment,
         image,
       },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const savePost = async (postId, token) => {
+  try {
+    const { data } = await axios.put(
+      `http://localhost:8000/savePost/${postId}`,
+      {},
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const deletePost = async (postId, token) => {
+  try {
+    const { data } = await axios.delete(
+      `http://localhost:8000/deletePost/${postId}`,
+
       {
         headers: {
           Authorization: `Bearer ${token}`,

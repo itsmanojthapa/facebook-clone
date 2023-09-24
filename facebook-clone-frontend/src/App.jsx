@@ -48,14 +48,7 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route
             path="/"
-            element={
-              <Home
-                user={user}
-                posts={posts}
-                visible={visible}
-                setVisible={setVisible}
-              />
-            }
+            element={<Home user={user} posts={posts} setVisible={setVisible} />}
           />
           <Route
             path="/profile"
