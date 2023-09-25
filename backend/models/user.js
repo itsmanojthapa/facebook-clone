@@ -1,3 +1,4 @@
+const { datacatalog } = require("googleapis/build/src/apis/datacatalog");
 const mongoose = require("mongoose");
 
 const { ObjectId } = mongoose.Schema;
@@ -95,6 +96,10 @@ const userSchema = mongoose.Schema(
         user: {
           type: ObjectId,
           ref: "User",
+        },
+        createdAt: {
+          type: Date,
+          required: true,
         },
       },
     ],

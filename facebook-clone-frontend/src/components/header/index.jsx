@@ -59,7 +59,11 @@ export default function Header({ page }) {
         </div>
       </div>
       {showSearchMenu && (
-        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+        <SearchMenu
+          color={color}
+          setShowSearchMenu={setShowSearchMenu}
+          user={user}
+        />
       )}
       <div className="header_middle">
         <Link
