@@ -14,6 +14,7 @@ import { postsState, loadingState, errorState } from "./atom";
 import { useRecoilState } from "recoil";
 import CreatePostPopup from "./components/createPostPopup";
 import Friends from "./pages/friends";
+import "./styles/dark.css";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -42,38 +43,55 @@ function App() {
       setError(error.response.data.message);
     }
   };
+
+  const isDark = useSelector((state) => {
+    return state.darkTheme;
+  });
+  console.log(isDark);
   return (
     <BrowserRouter>
-      {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
-      <Routes>
-        <Route element={<LoggedInRoutes />}>
-          <Route
-            path="/"
-            element={<Home user={user} posts={posts} setVisible={setVisible} />}
-          />
-          <Route
-            path="/profile"
-            element={
-              <Profile user={user} visible={visible} setVisible={setVisible} />
-            }
-            exact
-          />
-          <Route
-            path="/profile/:username"
-            element={
-              <Profile user={user} visible={visible} setVisible={setVisible} />
-            }
-            exact
-          />
-          <Route path="/activate/:token" element={<Activate user={user} />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/friends/:type" element={<Friends />} />
-        </Route>
-        <Route element={<NotLoggedInRoutes />}>
-          <Route path="/login" element={<Login />} />
-        </Route>
-        <Route path="/reset" element={<Reset user={user} />} />
-      </Routes>
+      <div className={isDark.darkTheme ? "dark" : ""}>
+        {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
+        <Routes>
+          <Route element={<LoggedInRoutes />}>
+            <Route
+              path="/"
+              element={
+                <Home user={user} posts={posts} setVisible={setVisible} />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  user={user}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+              }
+              exact
+            />
+            <Route
+              path="/profile/:username"
+              element={
+                <Profile
+                  user={user}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+              }
+              exact
+            />
+            <Route path="/activate/:token" element={<Activate user={user} />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/friends/:type" element={<Friends />} />
+          </Route>
+          <Route element={<NotLoggedInRoutes />}>
+            <Route path="/login" element={<Login />} />
+          </Route>
+          <Route path="/reset" element={<Reset user={user} />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

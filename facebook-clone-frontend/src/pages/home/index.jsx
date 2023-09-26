@@ -7,14 +7,30 @@ import Stories from "../../components/home/stories";
 import CreatePost from "../../components/createPost";
 import SendVerification from "../../components/home/sendVerification";
 import Post from "../../components/post";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 export default function Home({ user, posts, setVisible }) {
+  const middle = useRef(null);
+  const [height, setHeight] = useState();
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHeight);
+    setHeight(middle.current.clientHeight);
+  });
+
+  const scrollHeight = () => {
+    if (middle.current) {
+      setHeight(middle.current.clientHeight);
+    }
+  };
+
   return (
-    <div className="base">
+    <div className="home" style={{ height: `${height + 150}px` }}>
       <Header page="home" />
       <div className="home">
         <LeftHome user={user} />
-        <div className="home_middle">
+        <div className="home_middle" ref={middle}>
           <Stories />
           {!user.id && <SendVerification user={user} />}
           <CreatePost setVisible={setVisible} user={user} />

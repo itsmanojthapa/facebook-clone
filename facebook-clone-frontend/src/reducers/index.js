@@ -9,10 +9,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./userReducer";
 import allpost from "./getAllpost";
+import themeReducer from "./themeReducer";
 
 export default configureStore({
   reducer: {
     user: user,
     allpost: allpost,
+    darkTheme: themeReducer,
   },
 });

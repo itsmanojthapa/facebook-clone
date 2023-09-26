@@ -3,7 +3,7 @@ header {
   top: 0;
   height: 56px;
   z-index: 99;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   width: 100vw;
   box-shadow: 1px 8px 15px -7px var(--shadow-2);
   display: grid;
@@ -183,6 +183,7 @@ header {
 }
 .search_area .search input {
   padding-left: 4px;
+  color: var(--color-primary);
 }
 .search_area .search svg {
   transform: translateY(1px);
