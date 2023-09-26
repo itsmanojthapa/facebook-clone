@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { postsState, loadingState, errorState } from "./atom";
 import { useRecoilState } from "recoil";
 import CreatePostPopup from "./components/createPostPopup";
+import Friends from "./pages/friends";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -65,6 +66,8 @@ function App() {
             exact
           />
           <Route path="/activate/:token" element={<Activate user={user} />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/friends/:type" element={<Friends />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

@@ -221,3 +221,19 @@ export const removeFromSearch = async (searchUser, token) => {
     return error.response.data.message;
   }
 };
+
+export const getFriendsPageInfos = async (token) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:8000/getFriendsPageInfos`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return { status: "ok", data };
+  } catch (error) {
+    return error.response.data.message;
+  }
+};

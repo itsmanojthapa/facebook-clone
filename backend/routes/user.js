@@ -25,6 +25,7 @@ const {
   addToSearchHistory,
   getSearchHistory,
   removeFromSearch,
+  getFriendsPageInfos,
 } = require("../controllers/user");
 const authUser = require("../middlwares/auth");
 
@@ -51,5 +52,6 @@ router.put("/search/:searchTerm", authUser, search);
 router.put("/addToSearchHistory", authUser, addToSearchHistory);
 router.get("/getSearchHistory", authUser, getSearchHistory);
 router.put("/removeFromSearch", authUser, removeFromSearch);
+router.get("/getFriendsPageInfos", authUser, getFriendsPageInfos);
 
 module.exports = router;

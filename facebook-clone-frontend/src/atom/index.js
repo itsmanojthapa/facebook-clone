@@ -6,7 +6,6 @@ export const postsState = atom({
     posts: {},
   },
 });
-
 export const loadingState = atom({
   key: "loadingState",
   default: {
@@ -25,5 +24,9 @@ export const profileState = atom({
 });
 export const photosState = atom({
   key: "photosState",
+  default: {},
+});
+export const friendsPageInfosState = atom({
+  key: "friendsInfos",
   default: {},
 });

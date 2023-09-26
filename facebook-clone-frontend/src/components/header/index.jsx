@@ -71,8 +71,12 @@ export default function Header({ page }) {
           className={`middle_icon ${page === "home" ? "active" : "hover1"} `}>
           {page === "home" ? <HomeActive /> : <Home />}
         </Link>
-        <Link to="/" className="middle_icon hover1">
-          <Friends color={color} />
+        <Link
+          to="/friends"
+          className={`middle_icon ${
+            page === "friends" ? "active" : "hover1"
+          } `}>
+          {page === "friends" ? <HomeActive /> : <Friends color={color} />}
         </Link>
         <Link to="/" className="middle_icon hover1">
           <Watch color={color} />
