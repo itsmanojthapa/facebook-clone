@@ -472,3 +472,16 @@
 .friendship .blue_btn {
   height: 34px;
 }
+.fix {
+  flex-direction: row !important;
+}
+.react-loading-skeleton {
+  --base-color: #84ff3c !important;
+  --highlight-color: #fffc64 !important;
+}
+.sekelton_loader {
+  height: 100px;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}

@@ -9,10 +9,14 @@ import SendVerification from "../../components/home/sendVerification";
 import Post from "../../components/post";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { loadingState } from "../../atom";
+import { HashLoader } from "react-spinners";
+import { useRecoilState } from "recoil";
 
 export default function Home({ user, posts, setVisible }) {
   const middle = useRef(null);
   const [height, setHeight] = useState();
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollHeight);
@@ -34,10 +38,18 @@ export default function Home({ user, posts, setVisible }) {
           <Stories />
           {!user.id && <SendVerification user={user} />}
           <CreatePost setVisible={setVisible} user={user} />
-          <div className="posts">
-            {posts[0] &&
-              posts.map((post, i) => <Post post={post} user={user} key={i} />)}
-          </div>
+          {loading ? (
+            <div className="sekelton_loader">
+              <HashLoader color="#1876f2" />
+            </div>
+          ) : (
+            <div className="posts">
+              {posts[0] &&
+                posts.map((post, i) => (
+                  <Post post={post} user={user} key={i} />
+                ))}
+            </div>
+          )}
         </div>
         <RightHome user={user} />
       </div>

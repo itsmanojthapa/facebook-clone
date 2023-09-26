@@ -47,7 +47,6 @@ function App() {
   const isDark = useSelector((state) => {
     return state.darkTheme;
   });
-  console.log(isDark);
   return (
     <BrowserRouter>
       <div className={isDark.darkTheme ? "dark" : ""}>
